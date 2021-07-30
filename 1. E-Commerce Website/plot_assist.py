@@ -116,3 +116,17 @@ def plot_dist(values,color='#ff0000',bins=20,figsize = (14,6)):
     plt.xlabel('X')
     plt.legend(title='Info.')
     plt.show()
+
+
+def simulate_bootstrap_fast(n,p):
+    samples1 = np.random.binomial(n[0],p[0], 10000)/n[0]
+    samples2 = np.random.binomial(n[1],p[1], 10000)/n[1]
+    return samples2 - samples1
+
+def simulate_bootstrap_slow(n,p):
+    diffs = []
+    for _ in range(10000):
+        sample1 = np.random.choice([1,0], size = n[0], p = [p[0], (1- p[0])]).mean()
+        sample2 = np.random.choice([1,0], size = n[1], p = [p[1], (1- p[1])]).mean()
+        diffs.append(sample2 - sample1)
+    return np.array(diffs)
